@@ -1,0 +1,8 @@
+---
+icinga2_constant_defaults:
+  PluginDir: /usr/lib64/nagios/plugins
+  ManubulonPluginDir: /usr/lib64/nagios/plugins
+  PluginContribDir: /usr/lib64/nagios/plugins
+  NodeName: localhost
+  ZoneName: localhost
+  TicketSalt: ''

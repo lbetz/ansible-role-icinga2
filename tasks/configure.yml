@@ -1,0 +1,11 @@
+---
+- name: icinga2 main configuration file
+  template: src=icinga2.conf.j2 dest=/etc/icinga2/icinga2.conf
+  notify: reload icinga2 service
+
+- name: icinga2 set constants
+  template: src=constants.conf.j2 dest=/etc/icinga2/constants.conf
+  notify: reload icinga2 service
+
+- name: remove unmanaged features
+  include_tasks: features.yml

@@ -1,0 +1,17 @@
+---
+icinga2_manage_repos: true
+icinga2_ensure: started
+icinga2_enabled: true
+icinga2_confd: true
+icinga2_plugins:
+  - plugins
+  - plugins-contrib
+  - windows-plugins
+  - nscp
+icinga2_purge_features: false
+icinga2_features:
+  - name: checker
+  - name: notification
+  - name: mainlog
+    state: present
+    severity: notice

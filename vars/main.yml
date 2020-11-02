@@ -1,0 +1,18 @@
+---
+icinga2_feature_defaults:
+  checker:
+    object_type: CheckerComponent
+    object_name: checker
+    library: checker
+    attrs: {}
+  notification:
+    object_type: NotificationComponent
+    object_name: notification
+    library: notification
+    attrs: {}
+  mainlog:
+    object_type: FileLogger
+    object_name: main-log
+    attrs:
+      severity: information
+      path: /var/log/icinga2/icinga2.log

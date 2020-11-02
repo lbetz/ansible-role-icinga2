@@ -1,0 +1,8 @@
+/**
+ * This file defines global constants which can be used in
+ * the other configuration files.
+ */
+
+{% for key,value in icinga2_constant_defaults.items() %}
+const {{ key }} = "{{ value }}"
+{% endfor %}
