@@ -1,0 +1,26 @@
+{
+  "ANSIBLE_MODULE_ARGS": {
+    "object_name": "generic-host",
+    "object_type": "Host",
+    "state": "template",
+    "attrs": {
+      "address": "127.0.0.1",
+      "display_name": "string",
+      "check_command": "hostalive",
+      "retry_interval": "5m",
+      "enable_perfdata": "true",
+      "enable_notifications": "false",
+      "groups": [ "string" , "test" ],
+      "max_check_attempts": 3
+    },
+
+    "vars": {
+        "variable_string": "example_string",
+        "var_array": ["arr1","arr2"],
+        "var_dict": {
+          "level1": "test"
+        }
+    },
+    "imports": [ "base", "command" ]
+  }
+}

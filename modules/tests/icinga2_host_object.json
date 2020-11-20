@@ -1,0 +1,17 @@
+{
+  "ANSIBLE_MODULE_ARGS": {
+    "object_name": "NodeName",
+    "object_type": "Host",
+    "state": "object",
+    "vars": {
+      "vars": {
+        "variable_string": "example_string",
+        "var_array": ["arr1","arr2"],
+        "var_dict": {
+          "level1": "test"
+        }
+      }
+    },
+    "imports": [ "template1", "template2" ]
+  }
+}

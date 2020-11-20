@@ -1,0 +1,25 @@
+{
+  "ANSIBLE_MODULE_ARGS": {
+    "object_name": "ping4",
+    "object_type": "Service",
+    "state": "object",
+    "attrs": {
+      "retry_interval": "3m",
+      "check_period": "24x7",
+      "host_name": "icinga.localdomain",
+      "check_command": "ping4"
+    },
+    "assign": {
+      "assign where": ["host.name == test"],
+      "ignore where": ["host.name == linux"]
+    },
+    "vars": {
+      "variable_string": "example_string",
+      "var_array": ["arr1","arr2"],
+      "var_dict": {
+        "level1": "test"
+      }
+    },
+    "imports": [ "service-template1", "service-template2" ]
+  }
+}
