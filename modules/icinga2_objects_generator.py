@@ -264,7 +264,7 @@ class Icinga2Objects(object):
         config = ''
 
         if re.search(r'(object|template|apply)', self.state) and not (self.apply_target and self.apply):
-            config += '%s %s %s {\n' % (self.state, self.object_type, i2_lookup.parser(self, row=self.object_name))
+            config += '%s %s %s {\n' % (self.state, self.object_type, i2_lookup.parser(row=self.object_name))
         elif self.state == 'apply' and self.object_type == 'Service':
             config += 'apply Service "%s " for (%s)' % (i2_lookup.parse(self.object_name), self.apply)
         elif self.state == 'apply' and re.match(r'^(Notification|Dependency)$', self.object_type):

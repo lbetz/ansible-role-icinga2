@@ -20,20 +20,20 @@ import re
 class i2_lookup(LookupBase):
 
 
-    def attribute_types(self, attr):
+    def attribute_types(attr):
         if re.search(r'^[a-zA-Z0-9_]+$', attr):
             result = attr
         else:
             result = '"'+ attr + '"'
         return result
         
-    def value_types(self, value, indent=2):
-
+    def value_types(value, indent=2):
+        constants = ['NodeName']
         # Values without quotes
         if ((r := re.search(r'^-?\d+\.?\d*[dhms]?$', value)) or (r := re.search(r'^(true|false|null)$', value)) or
             ( r := re.search(r'^!?(host|service|user)\.', value))):
             result = value
-        elif value in self.constants:
+        elif value in constants:
             # Check if it is a constant
             result = value
         else:
@@ -41,7 +41,7 @@ class i2_lookup(LookupBase):
             result = '"' + value + '"'
         return result
 
-    def parser(self, row):
+    def parser(row):
         result = ''
         #print(row)
 
@@ -87,7 +87,7 @@ class i2_lookup(LookupBase):
 
         return result
 
-    def process_array(self, items, indent=2):
+    def process_array(items, indent=2):
         result=''
 
         #print("ident=" + str(indent))
@@ -102,7 +102,7 @@ class i2_lookup(LookupBase):
                 result += "%s, " % (i2_lookup.parser(item))
         return result
 
-    def process_hash(self, attrs, level=3, indent=2, prefix=' '):
+    def process_hash(attrs, level=3, indent=2, prefix=' '):
         result = ''
         if re.search(r'^\s+$', prefix):
             prefix = prefix * indent
@@ -185,7 +185,7 @@ class i2_lookup(LookupBase):
 
 
 
-    def icinga2_parser(self, attrs):
+    def icinga2_parser(attrs):
         config = ''
         indent = 0
         op = ''
@@ -236,30 +236,3 @@ class i2_lookup(LookupBase):
                     else:
                         config += "%s%s = %s\n" % (' '*indent, attr, i2_lookup.parser(str(value)))
         return config
-
-    def __init__(self):
-        self.constants=['NodeName']
-
-
-
-
-
-
-
-
-# def run(self, vars, **kwargs):
-#         print(self)
-#
-# def value_types(value):
-#       if value is match('^\d+(ms|s|h|d)?$') or value is match('^(true|false|null)$') or value is match('^!?(host|service|user)\.') or value is match('^\{{2}.*\}{2}$'):
-#         result = value
-#
-#       return result
-#
-#
-# def parser(row):
-#   result = ''
-#   # parser is disabled
-#   r = re.compile(r'^-:(.*)$')
-#   if bool(r.search(row)):
-#     return r.search(row).group(1)
