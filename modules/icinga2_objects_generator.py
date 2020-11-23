@@ -269,20 +269,20 @@ class Icinga2Objects(object):
             config += 'apply Service "%s " for (%s)' % (i2_lookup.parse(self.object_name), self.apply)
         elif self.state == 'apply' and re.match(r'^(Notification|Dependency)$', self.object_type):
             config += 'apply %s "%s" to %s' % (self.object_type, self.object_name, self.apply_target)
-            for imp in self.imports:
-                config += '  import "%s"\n' % (imp)
+        for imp in self.imports:
+            config += '  import "%s"\n' % (imp)
             config += '\n'
-            if self.attrs:
-                config += '  %s' % (re.sub('\n','\n  ', i2_lookup.icinga2_parser(self.attrs)))
-                config += '\n'
-            if self.vars and bool(self.vars):
-                config += '  %s' % (re.sub('\n','\n  ', i2_lookup.icinga2_parser(self.vars)))
-                config += '\n'
-            if self.assign:
-                print(self.assign)
-                config += '  %s' % (re.sub('\n','\n  ', i2_lookup.icinga2_parser(self.assign)))
-                config += '\n'
-            config += "}"
+        if self.attrs:
+            config += '  %s' % (re.sub('\n','\n  ', i2_lookup.icinga2_parser(self.attrs)))
+            config += '\n'
+        if self.vars and bool(self.vars):
+            config += '  %s' % (re.sub('\n','\n  ', i2_lookup.icinga2_parser(self.vars)))
+            config += '\n'
+        if self.assign:
+            print(self.assign)
+            config += '  %s' % (re.sub('\n','\n  ', i2_lookup.icinga2_parser(self.assign)))
+            config += '\n'
+        config += "}"
 
         obj = dict(changed=True, ansible_module_results="object generated", object=config)
         return obj
