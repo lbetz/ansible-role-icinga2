@@ -28,6 +28,7 @@ class i2_lookup(LookupBase):
         return result
         
     def value_types(value, indent=2):
+        #TODO: Get Constant List from from Moduleparams or AnsibleVars
         constants = ['NodeName']
         # Values without quotes
         if ((r := re.search(r'^-?\d+\.?\d*[dhms]?$', value)) or (r := re.search(r'^(true|false|null)$', value)) or
@@ -43,9 +44,8 @@ class i2_lookup(LookupBase):
 
     def parser(row):
         result = ''
-        #print(row)
 
-        # Disable parsing of the value
+        # Disable parsing of the value if prefix -:
         if (r := re.search(r'^-:(.*)$', row)):
             #print("Ignore Row: " + row)
             return r.group(1)
@@ -68,6 +68,7 @@ class i2_lookup(LookupBase):
                 # Alle Params der Funktion werden einzeln ohne Komma dem Parser übergeben und danach wieder zusammengeführt.
                 # result += "%s(%s" % [ $1, $2.split(',').map {|x| parse(x.lstrip)}.join(', ') ]
             elif (r := re.search(r'^ (.*)\)(.+)?$', row)):
+                # TODO: Parse functions
                 print("# closing bracket ) with optional access of an attribute e.g. '.arguments'" +
                       'result += "%s)%s" % [ $1.split(', ').map {|x| parse(x.lstrip)}.join(', '), $2 ]"')
             elif (r := re.search(r'^\((.*)$', row)):
@@ -89,13 +90,9 @@ class i2_lookup(LookupBase):
 
     def process_array(items, indent=2):
         result=''
-
-        #print("ident=" + str(indent))
-
         for item in items:
-            #print("Item="+item)
             if type(item) is dict:
-                result += "\n%s{\n%s%s}, " % ( ' '*indent, i2_lookup.process_hash(attrs=value, indent=indent+2), ' '*indent)
+                result += "\n%s{\n%s%s}, " % ( ' '*indent, i2_lookup.process_hash(attrs=item, indent=indent+2), ' '*indent)
             elif type(item) is list:
                 result += "[ %s], " % ( i2_lookup.process_array(item.split(','), indent=indent+2))
             else:
@@ -108,28 +105,19 @@ class i2_lookup(LookupBase):
             prefix = prefix * indent
         op = ''
 
-        #print("Hello to parser " + str(attrs))
-
         for attr, value in attrs.items():
-            #print(attr)
             if type(value) is dict:
-                #print("Im a dict: " + str(value))
                 if "+" in value:
-                    #print("delete value with +")
                     del value['+']
                     op = "+"
-                    #print(value)
                 if not bool(value):
                     #print("Its empty- moving on")
                     if level == 1:
-                        #print("empty level1")
                         result += "%s%s %s={}\n" % (prefix, attr, op)
                     elif level == 2:
-                        #print("empty level2")
                         result += "%s[\"%s\"] %s= {\n%s%s}\n" % (
                         prefix, attr, op, i2_lookup.process_hash(attrs=value, indent=indent+2), ' '*indent)
                     else:
-                        #print("empty level3")
                         result += "%s%s %s= {\n%s%s}\n" % (
                         prefix, i2_lookup.attribute_types(attr), op, i2_lookup.process_hash(attrs=value, indent=indent+2), ' '*indent)
 
