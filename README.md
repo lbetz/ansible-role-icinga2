@@ -6,7 +6,7 @@ A brief description of the role goes here.
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+* On CentOS or RHEL you need to have the EPEL repository available. You can achieve this by using die `icinga_repo` role (see Dependencies)
 
 Role Variables
 --------------
@@ -16,7 +16,7 @@ A description of the settable variables for this role should go here, including 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+* icinga_repo (The name is expected and will be used within the tasks. You can get the role from [GitHub](https://github.com/lbetz/ansible-role-icinga-repos.git))
 
 Example Playbook
 ----------------
