@@ -1,0 +1,5 @@
+---
+- name: icinga_repo
+  src: https://github.com/lbetz/ansible-role-icinga-repos.git
+  scm: git
+
